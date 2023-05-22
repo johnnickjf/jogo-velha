@@ -64,3 +64,20 @@ button:hover {
 .cell:not(:last-child) {
   border-right: 2px solid #333;
 }
+
+footer {
+  background-color: #333333;
+  color: #FFFFFF;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+footer p{
+  margin: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
