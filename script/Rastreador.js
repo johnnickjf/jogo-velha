@@ -1,4 +1,4 @@
-module.exports = class Rastreador{
+export default class Rastreador{
     constructor(raiz, destino){
         this.destino = destino;
         this.raiz = raiz;

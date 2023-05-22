@@ -1,6 +1,6 @@
-const Rastreador = require("./Rastreador");
+import Rastreador from './Rastreador.js';
 
-module.exports = class Search{
+export default class Search{
     static melhorEscolha(raiz, jogador){
         let ordenados = new Array();
         let atual, rastreadorAtual;

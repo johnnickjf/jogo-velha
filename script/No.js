@@ -1,4 +1,4 @@
-module.exports = class No {
+export default class No {
     constructor(tabuleiro) {
         this.tabuleiro = tabuleiro;
         this.notaTabuleiro = this.heuristica();

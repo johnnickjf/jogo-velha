@@ -1,6 +1,6 @@
-const No = require("./No");
+import No from './No.js';
 
-module.exports = class Game {
+export default class Game {
 
     constructor(tabuleiro) {
         this.raiz = new No(tabuleiro);
