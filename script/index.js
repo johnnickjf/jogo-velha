@@ -9,15 +9,11 @@
 // console.log(melhorJogada);
 
 let currentPlayer = 'X';
-let board = [
-  ['', '', ''],
-  ['', '', ''],
-  ['', '', '']
-];
+let board = ['', '', '', '', '', '', '', '', ''];
 
-function makeMove(row, col) {
-  if (board[row][col] === '') {
-    board[row][col] = currentPlayer;
+function makeMove(move) {
+  if (board[move] === '') {
+    board[move] = currentPlayer;
     event.target.innerText = currentPlayer;
     currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
     if (checkWin()) {
@@ -37,31 +33,23 @@ function moveIA() {
 }
 
 function checkWin() {
-  // Verifica se há um vencedor
   for (let i = 0; i < 3; i++) {
     if (
-      (board[i][0] !== '' && board[i][0] === board[i][1] && board[i][0] === board[i][2]) ||
-      (board[0][i] !== '' && board[0][i] === board[1][i] && board[0][i] === board[2][i])
+      (board[i * 3] !== '' && board[i * 3] === board[i * 3 + 1] && board[i * 3] === board[i * 3 + 2]) ||
+      (board[i] !== '' && board[i] === board[i + 3] && board[i] === board[i + 6])
     ) {
       return true;
     }
   }
-  if (
-    (board[0][0] !== '' && board[0][0] === board[1][1] && board[0][0] === board[2][2]) ||
-    (board[0][2] !== '' && board[0][2] === board[1][1] && board[0][2] === board[2][0])
-  ) {
-    return true;
-  }
-  return false;
+  return (
+    (board[0] !== '' && board[0] === board[4] && board[0] === board[8]) ||
+    (board[2] !== '' && board[2] === board[4] && board[2] === board[6])
+  );
 }
 
 function resetBoard() {
   currentPlayer = 'X';
-  board = [
-    ['', '', ''],
-    ['', '', ''],
-    ['', '', '']
-  ];
+  board = ['', '', '', '', '', '', '', '', ''];
   const cells = document.getElementsByClassName('cell');
   for (let i = 0; i < cells.length; i++) {
     cells[i].innerText = '';
