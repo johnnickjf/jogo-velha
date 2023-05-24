@@ -59,8 +59,8 @@ function moveIA() {
   }
   setTimeout(function() {
     checkWin(aiPlayer);
+    flag = true;
   }, 700);
-  flag = true;
 }
 
 function showMessage(value) {
