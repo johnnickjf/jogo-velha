@@ -7,6 +7,7 @@ let cells = document.querySelectorAll('.cell');
 
 let humanPlayer = 'X';
 let aiPlayer = 'O';
+let flag = true;
 
 
 btnReset.addEventListener('click', resetBoard);
@@ -15,15 +16,18 @@ cells.forEach(cell => {
 });
 
 function makeMove(event) {
-  let move = event.target.getAttribute('celula');
-  if (board[move] === '') {
-    board[move] = humanPlayer;
-    event.target.innerText = humanPlayer;
-    setTimeout(function() {
-      if(checkWin(humanPlayer)){
-        moveIA();
-      }
-    }, 700);
+  if(flag){
+    let move = event.target.getAttribute('celula');
+    if (board[move] === '') {
+      flag = false;
+      board[move] = humanPlayer;
+      event.target.innerText = humanPlayer;
+      setTimeout(function() {
+        if(checkWin(humanPlayer)){
+          moveIA();
+        }
+      }, 700);
+    }
   }
 }
 
@@ -56,6 +60,7 @@ function moveIA() {
   setTimeout(function() {
     checkWin(aiPlayer);
   }, 700);
+  flag = true;
 }
 
 function showMessage(value) {
@@ -89,6 +94,7 @@ function checkWin(value) {
 
 function resetBoard() {
   board = ['', '', '', '', '', '', '', '', ''];
+  flag = true;
   for (let i = 0; i < cells.length; i++) {
     cells[i].innerText = '';
   }
