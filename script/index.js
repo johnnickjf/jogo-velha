@@ -19,9 +19,11 @@ function makeMove(event) {
   if (board[move] === '') {
     board[move] = humanPlayer;
     event.target.innerText = humanPlayer;
-    if(checkWin(humanPlayer)){
-      moveIA();
-    }
+    setTimeout(function() {
+      if(checkWin(humanPlayer)){
+        moveIA();
+      }
+    }, 700);
   }
 }
 
@@ -51,7 +53,9 @@ function moveIA() {
     }
     board = nextMove;
   }
-  checkWin(aiPlayer);
+  setTimeout(function() {
+    checkWin(aiPlayer);
+  }, 700);
 }
 
 function showMessage(value) {
@@ -60,10 +64,6 @@ function showMessage(value) {
 }
 
 function checkWin(value) {
-  if(fail()){
-    showMessage('V');
-    return false;
-  }
   for (let i = 0; i < 3; i++) {
     if (
       (board[i * 3] !== '' && board[i * 3] === board[i * 3 + 1] && board[i * 3] === board[i * 3 + 2]) ||
@@ -78,6 +78,10 @@ function checkWin(value) {
     (board[2] !== '' && board[2] === board[4] && board[2] === board[6])
   ){
     showMessage(value);
+    return false;
+  }
+  if(fail()){
+    showMessage('V');
     return false;
   }
   return true;
