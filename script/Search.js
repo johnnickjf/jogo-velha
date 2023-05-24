@@ -1,7 +1,7 @@
-const Rastreador = require("./Rastreador");
+import Rastreador from './Rastreador.js';
 
-module.exports = class Search{
-    static melhorEscolha(raiz, jogador){
+export default class Search{
+    static bestChoice(raiz, player){
         let ordenados = new Array();
         let atual, rastreadorAtual;
         let fila = new Array(new Rastreador(raiz,null));
@@ -10,7 +10,7 @@ module.exports = class Search{
             rastreadorAtual = fila.shift(); //Isso é o rastreador atual
             atual = rastreadorAtual.raiz; //Isso é o nó atual que está dentro da fila de rastreadores
             
-            if(Search.vitoria(atual.tabuleiro, jogador)){
+            if(Search.vitoria(atual.tabuleiro, player)){
                 return rastreadorAtual;
             }
 

@@ -1,4 +1,14 @@
-module.exports = class No {
+const winOptions = [
+        [0, 1, 2], // row 1
+        [3, 4, 5], // row 2
+        [6, 7, 8], // row 3
+        [0, 3, 6], // column 1
+        [1, 4, 7], // column 2
+        [2, 5, 8], // column 3
+        [0, 4, 8], // main diagonal
+        [2, 4, 6], // secondary diagonal
+      ];
+export default class No {
     constructor(tabuleiro) {
         this.tabuleiro = tabuleiro;
         this.notaTabuleiro = this.heuristica();
@@ -6,21 +16,9 @@ module.exports = class No {
     }
 
     heuristica(jogador = 'O') {
-        const opcoesVitoria = [
-            [0, 1, 2], // linha 1
-            [3, 4, 5], // linha 2
-            [6, 7, 8], // linha 3
-            [0, 3, 6], // coluna 1
-            [1, 4, 7], // coluna 2
-            [2, 5, 8], // coluna 3
-            [0, 4, 8], // diagonal principal
-            [2, 4, 6], // diagonal secundária
-        ];
-
         let pontuacao = 0;
-
-        for (let i = 0; i < opcoesVitoria.length; i++) {
-            let opcao = opcoesVitoria[i]; // Pega uma opção de vitória ex: [0, 1, 2]
+        for (let i = 0; i < winOptions.length; i++) {
+            let opcao = winOptions[i]; // Pega uma opção de vitória ex: [0, 1, 2]
             let vitoria = true; 
             for (let j = 1; j < opcao.length; j++) {
                 let posicao = opcao[j]; // Pega a posição 1, 2, 3 da opção de vitória
