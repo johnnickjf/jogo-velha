@@ -1,4 +1,4 @@
-import GameTree from './Game.js';
+import Game from './Game.js';
 import Search from './Search.js';
 
 let board = ['', '', '', '', '', '', '', '', ''];
@@ -26,7 +26,7 @@ function makeMove(event) {
         if(checkWin(humanPlayer)){
           moveIA();
         }
-      }, 700);
+      }, 500);
     }
   }
 }
@@ -42,15 +42,11 @@ function fail(){
 }
 
 function moveIA() {
-  let allPossibilities  = new GameTree(board);
-  let aiMoves = Search.bestChoice(allPossibilities .raiz, aiPlayer);
-  let nextMove;
-  while(aiMoves.destino != null){
-    nextMove = aiMoves.raiz.tabuleiro;
-    aiMoves = aiMoves.destino;
-  }
+  let allPossibilities  = new Game(board);
+  let nextMove = Search.bestChoice(allPossibilities.raiz, aiPlayer);
+  console.log(nextMove);
   if(nextMove != null){
-    for (let index = 0; index <= nextMove.length; index++) {
+    for (let index = 0; index < nextMove.length; index++) {
       if(nextMove[index] !== board[index]){
         cells[index].innerText = nextMove[index];
       }
@@ -59,7 +55,7 @@ function moveIA() {
   }
   setTimeout(function() {
     checkWin(aiPlayer);
-  }, 700);
+  }, 500);
   flag = true;
 }
 

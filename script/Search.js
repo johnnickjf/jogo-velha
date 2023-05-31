@@ -1,28 +1,56 @@
 import Rastreador from './Rastreador.js';
 
 export default class Search{
-    static bestChoice(raiz, player){
-        let ordenados = new Array();
-        let atual, rastreadorAtual;
-        let fila = new Array(new Rastreador(raiz,null));
+static bestChoice(raiz, player) {
+  let ordenados = [];
+  let atual, rastreadorAtual;
+  let fila = [new Rastreador(raiz, null)];
+  let melhorJogada = null;
+  let melhorValor = -Infinity;
 
-        while (fila[0] != null) {
-            rastreadorAtual = fila.shift(); //Isso é o rastreador atual
-            atual = rastreadorAtual.raiz; //Isso é o nó atual que está dentro da fila de rastreadores
-            
-            if(Search.vitoria(atual.tabuleiro, player)){
-                return rastreadorAtual;
-            }
+  while (fila[0] != null) {
+    rastreadorAtual = fila.shift();
+    atual = rastreadorAtual.raiz;
 
-            ordenados = atual.retornaOrdenados(rastreadorAtual.custo); //Retorna os filhos do nó atual ordenados pela heuristica + custo até chegar ali.
-
-            ordenados.forEach(filho => {
-                fila.push(new Rastreador(filho,rastreadorAtual)); //Adiciona os filhos do nó atual na fila de rastreadores ordenados
-            });
-
-        }
-        return rastreadorAtual;
+    if (Search.vitoria(atual.tabuleiro, player)) {
+      melhorJogada = atual.tabuleiro.slice(); // Copia o tabuleiro atual
+      break;
     }
+
+    ordenados = atual.retornaOrdenados(rastreadorAtual.custo);
+
+    for (let filho of ordenados) {
+      const valor = filho.minimax();
+
+      if (valor > melhorValor) {
+        melhorValor = valor;
+        melhorJogada = filho.tabuleiro.slice(); // Copia o tabuleiro do filho atual
+      }
+
+      fila.push(new Rastreador(filho, rastreadorAtual));
+    }
+  }
+
+  // Encontra a primeira jogada do tabuleiro
+  const primeiraJogada = Search.encontrarPrimeiraJogada(melhorJogada);
+
+  return primeiraJogada;
+}
+
+// Função auxiliar para encontrar a primeira jogada no tabuleiro
+static encontrarPrimeiraJogada(tabuleiro) {
+  const primeiraJogada = tabuleiro.slice(); // Copia o tabuleiro
+  const jogadas = primeiraJogada.filter((jogada) => jogada !== ""); // Filtra as jogadas válidas (não vazias)
+
+  if (jogadas.length > 0) {
+    const primeiraJogadaIndex = tabuleiro.indexOf(jogadas[0]);
+    primeiraJogada.fill("", primeiraJogadaIndex + 1); // Remove as jogadas após a primeira jogada
+  }
+
+  return primeiraJogada;
+}
+
+
 
     static vitoria(tabuleiro, jogador){
         const opcoesVitoria = [

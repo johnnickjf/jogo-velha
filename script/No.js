@@ -1,4 +1,5 @@
-const winOptions = [
+export default class No {
+    static winOptions = [
         [0, 1, 2], // row 1
         [3, 4, 5], // row 2
         [6, 7, 8], // row 3
@@ -8,34 +9,57 @@ const winOptions = [
         [0, 4, 8], // main diagonal
         [2, 4, 6], // secondary diagonal
       ];
-export default class No {
-    constructor(tabuleiro) {
+    constructor(tabuleiro, jogador = 'O') {
+        this.jogador = jogador;
         this.tabuleiro = tabuleiro;
         this.notaTabuleiro = this.heuristica();
         this.child = new Array();
+        this.terminado = this.notaTabuleiro === 0 && !this.tabuleiro.includes('');
     }
-
-    heuristica(jogador = 'O') {
-        let pontuacao = 0;
-        for (let i = 0; i < winOptions.length; i++) {
-            let opcao = winOptions[i]; // Pega uma opção de vitória ex: [0, 1, 2]
-            let vitoria = true; 
-            for (let j = 1; j < opcao.length; j++) {
-                let posicao = opcao[j]; // Pega a posição 1, 2, 3 da opção de vitória
-                if (this.tabuleiro[posicao] !== jogador) { 
-                    vitoria = false; // Se a posição não for igual ao jogador, não é uma vitória
-                    break;
-                }
-            }
-
-            if (vitoria) {
-                pontuacao += 10; // Se um dos campos de vitoria está diponivel, cai aqui e soma 10
-            } else {
-                pontuacao += 1; // Caso não seja um campo que seria uma opção de vitoria, cai aqui e soma 1
+    heuristica() {
+    let pontuacao = 0;
+    for (let i = 0; i < No.winOptions.length; i++) {
+        let opcao = No.winOptions[i];
+        let vitoria = true;
+        for (let j = 1; j < opcao.length; j++) {
+            let posicao = opcao[j];
+            if (this.tabuleiro[posicao] !== this.jogador) {
+                vitoria = false;
+                break;
             }
         }
-        return pontuacao; // No final retorna um valor de TODAS as possivel opções que ele pode por a jogada e possivelmente ganhar.
+
+        if (vitoria) {
+            pontuacao += 10;
+        } else {
+            pontuacao += 1;
+        }
     }
+    return pontuacao;
+}
+
+    minimax() {
+    if (this.terminado) {
+      return this.notaTabuleiro;
+    }
+
+    let melhorValor;
+    if (this.jogador === 'X') {
+      melhorValor = -Infinity;
+      for (let filho of this.child) {
+        const valor = filho.minimax();
+        melhorValor = Math.max(valor, melhorValor);
+      }
+    } else {
+      melhorValor = Infinity;
+      for (let filho of this.child) {
+        const valor = filho.minimax();
+        melhorValor = Math.min(valor, melhorValor);
+      }
+    }
+
+    return melhorValor;
+  }
 
     retornaOrdenados(custo){
         const filhos = this.child;
